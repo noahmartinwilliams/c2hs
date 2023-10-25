@@ -243,6 +243,7 @@ data CHSToken = CHSTokArrow   Position          -- `->'
               | CHSTokSet     Position          -- `set'
               | CHSTokSizeof  Position          -- `sizeof'
               | CHSTokAlignof Position          -- `alignof'
+              | CHSTokAlignas Position          -- `alignas'
               | CHSTokStable  Position          -- `stable'
               | CHSTokStruct  Position          -- `struct'
               | CHSTokType    Position          -- `type'
@@ -460,6 +461,7 @@ instance Show CHSToken where
   showsPrec _ (CHSTokSet     _  ) = showString "set"
   showsPrec _ (CHSTokSizeof  _  ) = showString "sizeof"
   showsPrec _ (CHSTokAlignof _  ) = showString "alignof"
+  showsPrec _ (CHSTokAlignas _  ) = showString "alignas"
   showsPrec _ (CHSTokStable  _  ) = showString "stable"
   showsPrec _ (CHSTokStruct  _  ) = showString "struct"
   showsPrec _ (CHSTokType    _  ) = showString "type"
@@ -839,6 +841,7 @@ identOrKW  =
     idkwtok pos "set"              _    = CHSTokSet     pos
     idkwtok pos "sizeof"           _    = CHSTokSizeof  pos
     idkwtok pos "alignof"          _    = CHSTokAlignof pos
+    idkwtok pos "alignas"          _    = CHSTokAlignas pos
     idkwtok pos "stable"           _    = CHSTokStable  pos
     idkwtok pos "struct"           _    = CHSTokStruct  pos
     idkwtok pos "type"             _    = CHSTokType    pos
@@ -889,6 +892,7 @@ keywordToIdent tok =
     CHSTokAlignof pos -> mkid pos "alignof"
     CHSTokStable  pos -> mkid pos "stable"
     CHSTokStruct  pos -> mkid pos "struct"
+    CHSTokAlignas pos -> mkid pos "alignas"
     CHSTokType    pos -> mkid pos "type"
     CHSTok_2Case  pos -> mkid pos "underscoreToCase"
     CHSTokUnsafe  pos -> mkid pos "unsafe"

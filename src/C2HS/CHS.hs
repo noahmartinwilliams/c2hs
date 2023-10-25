@@ -209,6 +209,8 @@ data CHSHook = CHSImport  Bool                  -- qualified?
                           Position
              | CHSAlignof Ident                 -- C type
                           Position
+             | CHSAlignas Ident                 -- C type
+                          Position
              | CHSEnum    Ident                 -- C enumeration type
                           (Maybe Ident)         -- Haskell name
                           CHSTrans              -- translation table
@@ -1104,6 +1106,13 @@ parseAlignof hkpos pos (CHSTokIdent _ ide:toks) =
     frags <- parseFrags toks'
     return $ CHSHook (CHSAlignof ide pos) hkpos : frags
 parseAlignof _ _ toks = syntaxError toks
+
+parseAlignas :: Position -> Position -> [CHSToken] -> CST s [CHSFrag]
+parseAlignas hkpos pos (CHSTokIdent _ ide:toks) = 
+  do
+    toks' <- parseEndHook toks
+    frags <- parseFrags toks'
+    return $ CHSHook (CHSAlignof ide pos) hkpos : frags
 
 parseEnum :: Position -> Position -> [CHSToken] -> CST s [CHSFrag]
 
